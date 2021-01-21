@@ -1,5 +1,5 @@
 $mediumScreen: 993px;
-.questionsCreate {
+.questionsCreate, .studentsCreate {
     @media screen and (min-width: $mediumScreen) {
         width: 900px;
     }
@@ -20,7 +20,12 @@ $mediumScreen: 993px;
   }
     
 }
-.testSil {
+.Students {
+  .table td, .table th {
+    vertical-align: middle !important;
+  }
+}
+.testSil, .subeSil {
   position: absolute;
   margin-top: 15px;
   padding: 1px 5px;
@@ -80,3 +85,42 @@ $mediumScreen: 993px;
 .openbtn:hover {
   background-color:#444;
 }
+
+.dropdown {
+  margin-top: 7px;
+  button{
+    font-size: 18px;
+    font-weight: 500;
+    vertical-align: middle !important;
+  }
+  .dropdown-menu {
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+  
+    max-height: 0;
+    display: block;
+    overflow: hidden;
+    opacity: 0;
+    color: #000000;
+    a {
+      padding: 6px 8px;
+      color: #000000 !important;
+      padding-left: 8px;
+      width: 100% !important;
+      display: block;
+      &:hover {
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+  .dropdown.show {
+    .dropdown-menu {
+      max-height: 200px;
+      opacity: 1;
+    }
+  }
