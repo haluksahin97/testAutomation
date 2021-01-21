@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <?php include_once("../sabitler/standardsAdmin.php"); ?>
 
@@ -17,23 +17,24 @@
 </head>
 <body>
 
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bd-navbar bg-dark" id="navbarId">
-    <div class="container">
-        <a class="navbar-brand" href="yenisoru.php">Fatih ÖZCAN</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav ml-auto">
-                <a class="nav-link pl-4" href="yenisoru.php">Yeni Soru <span class="sr-only">(current)</span></a>
-                <a class="nav-link active pl-4" href="sorular.php">Sorular</a>
-                <a class="nav-link pl-4" href="yeniogrenci.php">Yeni Öğrenci</a>
-                <a class="nav-link pl-4" href="ogrenciler.php">Öğrenciler</a>
-                <a class="nav-link pl-4" href="signOut.php"><i class="fas fa-sign-out-alt"></i></a>
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bd-navbar bg-dark" id="navbarId">
+        <div class="container">
+            <a class="navbar-brand" href="yenisoru.php">Fatih ÖZCAN</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav ml-auto">
+                    <a class="nav-link pl-4" href="yenisoru.php">Yeni Soru</a>
+                    <a class="nav-link active pl-4" href="sorular.php">Sorular</a>
+                    <a class="nav-link pl-4" href="yeniogrenci.php">Yeni Öğrenci</a>
+                    <a class="nav-link pl-4" href="ogrenciler.php">Öğrenciler</a>
+                    <a class="nav-link pl-4" href="testata.php">Test Ata</a>
+                    <a class="nav-link pl-4" href="signOut.php"><i class="fas fa-sign-out-alt"></i></a>
+                </div>
             </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
 <div id="mySidepanel" class="sidepanel">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>

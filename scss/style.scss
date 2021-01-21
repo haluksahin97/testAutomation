@@ -1,5 +1,5 @@
 $mediumScreen: 993px;
-.questionsCreate, .studentsCreate {
+.questionsCreate, .studentsCreate, .testGive {
     @media screen and (min-width: $mediumScreen) {
         width: 900px;
     }
