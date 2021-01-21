@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <?php include_once("../sabitler/standardsAdmin.php"); ?>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fatih Özcan</title>
@@ -10,21 +12,22 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
 
-    <link rel="stylesheet" href="../css/style.css?v=4" >
+    <link rel="stylesheet" href="../css/style.css?v=5" >
 
 </head>
 <body>
 
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bd-navbar bg-dark" id="navbarId">
     <div class="container">
-    <a class="navbar-brand" href="index.php">Fatih ÖZCAN</a>
+    <a class="navbar-brand" href="yenisoru.php">Fatih ÖZCAN</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ml-auto">
-        <a class="nav-link pl-4" href="index.php">Yeni Soru <span class="sr-only">(current)</span></a>
+        <a class="nav-link pl-4" href="yenisoru.php">Yeni Soru <span class="sr-only">(current)</span></a>
         <a class="nav-link active pl-4" href="sorular.php">Sorular</a>
+        <a class="nav-link pl-4" href="signOut.php"><i class="fas fa-sign-out-alt"></i></a>
         
         </div>
     </div>
@@ -63,9 +66,6 @@
                     "secenek3" => "",
                     "cozum" => ""
                 ));
-        
-                include_once("../sabitler/sabit.php");
-                include_once("../sabitler/baglanti.php");
         
                 $sql = mysqli_query(baglanti(),"Select * from sorular where sinif = '$sinif' and testadi = '$testadi'");
         
@@ -110,7 +110,7 @@
         ?>
                     <div class="header pt-2 mt-4">
                         <h1 class="text-center"><?php echo $sinif ?>. Sınıf Soruları - <?php echo $testadi ?> Testi</h1>
-            
+
                         <hr width="61px">
                     </div>
 
@@ -147,7 +147,7 @@
                                                     <td ondblclick="itemDoubleClick(this,sorularId[<?php echo $i; ?>], 'sinif')"><?php echo $sorular[$i]["sinif"] ?></td>
                                                     <td ondblclick="itemDoubleClick(this,sorularId[<?php echo $i; ?>], 'cozum')"><?php echo $sorular[$i]["cozum"] ?></td>
                                                     <td ondblclick="itemDoubleClick(this,sorularId[<?php echo $i; ?>], 'testadi')"><?php echo $sorular[$i]["testadi"] ?></td>
-                                                    <td><a href="deleteQuestions.php?id=<?php echo $sorular[$i]["id"] ?>&&sinif=<?php echo $sinif ?>" class="btn btn-danger">Sil</a></td>
+                                                    <td><a href="deleteQuestions.php?id=<?php echo $sorular[$i]["id"] ?>&&sinif=<?php echo $sinif ?>&&testadi=<?php echo $_GET['testadi'] ?>" class="btn btn-danger">Sil</a></td>
                                                 </tr>
                                             <?php
                                         }
@@ -168,9 +168,10 @@
                     <div class="container">
                         <div class="row d-flex justify-content-center">
                             <div>
+                                <div class="row">
+                                    <a href="sorular.php?sinif=<?php echo $_GET["sinif"] ?>&&testadi=YOK" class="btn btn-primary mt-4 w-100">Test adı olmayan sorular</a>
+                                </div>
         <?php
-                                include_once("../sabitler/sabit.php");
-                                include_once("../sabitler/baglanti.php");
                         
                                 $sql = mysqli_query(baglanti(),"Select * from testadi");
                         
@@ -231,22 +232,33 @@
     var lastClickItemText = "";
     var lastClickItemId = "";
     function itemDoubleClick(which, id, category) {
-        if(category != "resim") {
-            if(lastClickItem != ""){
-                lastClickItem.innerHTML = lastClickItemText;
-            }
-            lastClickItem = which;
-            lastClickItemText = which.innerHTML;
-            var inputContent = which.innerHTML;
-            lastClickItemId = id;
-            lastClickItemCategory = category;
+        if(lastClickItem != ""){
+            lastClickItem.innerHTML = lastClickItemText;
+        }
+        lastClickItem = which;
+        lastClickItemText = which.innerHTML;
+        lastClickItemId = id;
+        lastClickItemCategory = category;
+        if(category == "testadi") {
+            which.innerHTML = "<form method='POST' action='updateQuestions.php?category="+category+"&&id="+id+"&&sinif=<?php echo $sinif; ?>&&testadi=<?php echo $_GET['testadi'] ?>' enctype='multipart/form-data'><select class='form-control' name='testadi' onchange='testadiChange()'><?php 
+                
+                ?><option selected disabled>Seçiniz...</option><?php
+
+                $sql = mysqli_query(baglanti(),"Select * from testadi");
+                $lastClickItemText = "<script>lastClickItemText</script>";
+                while($row = mysqli_fetch_array($sql)){
+                    ?><option value='<?php echo $row['adi'] ?>'><?php echo $row['adi'] ?></option><?php
+                }
+            ?></select></form>";
+        }
+        else if(category != "resim") {
             if(category == "soru" || category == "cozum") {
-                which.innerHTML = "<form method='POST' action='updateQuestions.php?category="+category+"&&id="+id+"&&sinif=<?php echo $sinif; ?>' enctype='multipart/form-data'> <textarea id='changeText' class='form-control' rows='3' name='"+category+"'></textarea></form>"
+                which.innerHTML = "<form method='POST' action='updateQuestions.php?category="+category+"&&id="+id+"&&sinif=<?php echo $sinif; ?>&&testadi=<?php echo $_GET['testadi'] ?>' enctype='multipart/form-data'> <textarea id='changeText' class='form-control' rows='3' name='"+category+"'></textarea></form>"
             }
             else {
-                which.innerHTML = "<form method='POST' action='updateQuestions.php?category="+category+"&&id="+id+"&&sinif=<?php echo $sinif; ?>' enctype='multipart/form-data'> <input id='changeText' type='text' class='form-control' name='"+category+"'></form>"
+                which.innerHTML = "<form method='POST' action='updateQuestions.php?category="+category+"&&id="+id+"&&sinif=<?php echo $sinif; ?>&&testadi=<?php echo $_GET['testadi'] ?>' enctype='multipart/form-data'> <input id='changeText' type='text' class='form-control' name='"+category+"'></form>"
             }
-            $("#changeText").focus().val("").val(inputContent);
+            $("#changeText").focus().val("").val(lastClickItemText);
         }
     }
     </script>
@@ -308,6 +320,11 @@ function getCaret(el) {
                 return false;
             }
         });
+    </script>
+    <script>
+        function testadiChange(){
+            $('form').submit();
+        }
     </script>
 
 </body>

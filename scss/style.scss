@@ -20,6 +20,20 @@ $mediumScreen: 993px;
   }
     
 }
+.testSil {
+  position: absolute;
+  margin-top: 15px;
+  padding: 1px 5px;
+  border-radius: 25%;
+  background-color: red;
+  color: white;
+  font-size: 11px;
+  left: 48%;
+  cursor: pointer;
+  &:hover {
+    background-color: rgb(214, 72, 72);
+  }
+}
 .sidepanel  {
   width: 0;
   position: fixed;

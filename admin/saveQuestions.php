@@ -1,6 +1,6 @@
 <?php
-    include_once("../sabitler/sabit.php");
-    include_once("../sabitler/baglanti.php");
+
+    include_once("../sabitler/standardsAdmin.php");
 
     function multiexplode ($delimiters,$string) {
 
@@ -9,7 +9,7 @@
         return  $launch;
     }
     $url = $_SERVER['HTTP_REFERER'];
-    $url = multiexplode(array("?","="),$url);    
+    $url = multiexplode(array("?","=","&&"),$url);    
     
     $soru= htmlentities($_POST["soru"], ENT_QUOTES, "UTF-8");
     $resim= htmlentities($_FILES["dosya"]["name"], ENT_QUOTES, "UTF-8");
@@ -19,6 +19,7 @@
     $secenek3= htmlentities($_POST["secenek3"], ENT_QUOTES, "UTF-8");
     $sinif= $url[2];
     $cozum= htmlentities($_POST["cozum"], ENT_QUOTES, "UTF-8");
+    $testadi= htmlentities($_GET["testadi"], ENT_QUOTES, "UTF-8");
 
 
     //--------------------------------image upload
@@ -77,8 +78,9 @@
     }
     //--------------------------------image upload End--//
 
-    $sql="insert into sorular (soru, resim, cevap, secenek1, secenek2, secenek3, sinif, cozum) values ('$soru', '$resim', '$cevap', '$secenek1', '$secenek2', '$secenek3', '$sinif', '$cozum')";
+
+    $sql="insert into sorular (soru, resim, cevap, secenek1, secenek2, secenek3, sinif, cozum, testadi) values ('$soru', '$resim', '$cevap', '$secenek1', '$secenek2', '$secenek3', '$sinif', '$cozum', '$testadi')";
     mysqli_query(baglanti(),$sql) or die ("Kayıt ekleme sorgusunda hata oluştu");
-    header("Location:index.php");
+    header("Location:yenisoru.php?sinif=$sinif&&testadi=$testadi");
 
     
