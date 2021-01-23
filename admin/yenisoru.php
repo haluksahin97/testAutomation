@@ -164,8 +164,8 @@
                         <div class="row">
                             <div class="col-6">
         <?php
-                    
-                        $sql = mysqli_query(baglanti(),"Select * from testadi");
+                        $sinif = $_GET['sinif'];
+                        $sql = mysqli_query(baglanti(),"Select * from testadi where sinif='$sinif'");
                 
                         while($row = mysqli_fetch_array($sql)){
         ?>
@@ -181,6 +181,7 @@
                                 <form class="mt-5 needs-validation" method="POST" action="saveTestName.php?sinif=<?php echo $_GET['sinif'] ?>" enctype="multipart/form-data" novalidate>
                                     
                                     <input type="text" class="form-control" placeholder="Yeni Test Adı" name="testadi" required>
+                                    <input type="text" class="form-control mt-4" placeholder="Süresi" name="sure" required>
                                     <button type="submit" class="btn btn-success mt-4">Kaydet</button>
 
                                 </form>

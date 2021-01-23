@@ -149,3 +149,19 @@ $mediumScreen: 993px;
       right: 0;
     }
   }
+  #testFinish, #testIntro {
+    text-align: center;
+    position: fixed;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color:#fff;
+    z-index: 999;
+    .content {
+      margin-top: 25vh;
+      .btn {
+        width:100px;
+      }
+    }
+  }

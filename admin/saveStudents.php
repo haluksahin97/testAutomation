@@ -21,6 +21,8 @@
 
     $sql="insert into ogrenciler (adi, soyadi, ogrencino, sinif, subeadi) values ('$adi', '$soyadi', '$ogrencino', '$sinif', '$subeadi')";
     mysqli_query(baglanti(),$sql) or die ("Kayıt ekleme sorgusunda hata oluştu");
+
+
     header("Location:yeniogrenci.php?sinif=$sinif&&subeadi=$subeadi");
 
     

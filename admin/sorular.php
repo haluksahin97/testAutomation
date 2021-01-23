@@ -52,8 +52,8 @@
     <?php
 
         if(!empty($_GET["sinif"])){
+            $sinif = $_GET["sinif"];
             if(!empty($_GET["testadi"])) {
-                $sinif = $_GET["sinif"];
                 $testadi = $_GET["testadi"];
 
                 $soruSayac = 0;
@@ -133,7 +133,7 @@
 
 
                                         <?php
-                                            $sql = mysqli_query(baglanti(),"Select * from testadi");
+                                            $sql = mysqli_query(baglanti(),"Select * from testadi where sinif='$sinif'");
                                                 
                                             while($row = mysqli_fetch_array($sql)){
                                                 if($_GET['testadi'] != $row['adi']) {
@@ -211,7 +211,7 @@
                                 </div>
         <?php
                         
-                                $sql = mysqli_query(baglanti(),"Select * from testadi");
+                                $sql = mysqli_query(baglanti(),"Select * from testadi where sinif='$sinif'");
                         
                                 while($row = mysqli_fetch_array($sql)){
         ?>

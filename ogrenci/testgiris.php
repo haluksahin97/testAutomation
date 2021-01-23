@@ -10,7 +10,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
 
-    <link rel="stylesheet" href="../css/style.css?v=1" >
+    <link rel="stylesheet" href="../css/style.css?v=9" >
     
 </head>
 <body>
@@ -22,7 +22,7 @@
         </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ml-auto">
-                    <a class="nav-link active pl-4" href="testler.php">Testler</a>
+                    <a class="nav-link pl-4" href="testler.php">Testler</a>
                     <a class="nav-link pl-4" href="testsonuc.php">Sonuclar</a>
                     <a class="nav-link pl-4" href="signOut.php"><i class="fas fa-sign-out-alt"></i></a>
                 </div>
@@ -31,29 +31,24 @@
     </nav>
     
     <main role="main">
-        <div class="container studentTests">
-            <div class="header pt-5x mt-5">
+        <div id="testIntro">
+            <div class="content">
+                <?php $testAd = $_GET['test']; ?>
+                <h2 class="mb-4" id="testIntroHead"><?php echo $testAd; ?> Testine Hoşgeldiniz</h2>
+                <?php 
+                    $sql = mysqli_query(baglanti(),"Select sure from testadi where adi = '$testAd' and sinif = '$ogrenciSinif'");
+                    $row = mysqli_fetch_array($sql);
+                    $sure = $row['sure'];
+                ?>
                 
-                <h4>Merhaba <?php echo $ogrenciAd . " " . $ogrenciSoyad ?></h4>
-
-                
-                <h1 class="text-center">Testler</h1>
-    
-                <hr width="61px">
-
+                <h5 id="testIntroContent" class="mb-5">Süreniz <?php echo $sure ?> dakidadır. </h5>
+                <button class="btn btn-dark" id="testIntroButton" onclick="window.location.href='test.php?test=<?php echo $testAd; ?>';">Başla</button>
             </div>
-            <?php
-                $sql = mysqli_query(baglanti(),"Select DISTINCT testadi from sorular where testadi != 'YOK' and sinif = '$ogrenciSinif' ");
-                    
-                while($row = mysqli_fetch_array($sql)){
-            ?>
-                    <div class="w-100 d-flex justify-content-center">
-                        <a class="btn btn-danger w-25 mt-3" href="testgiris.php?test=<?php echo $row['testadi'] ?>"><?php echo $row['testadi'] ?> Testi</a>
-                    </div>
-            <?php
-                }
-            ?>
         </div>
     </main>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    
 </body>
 </html>

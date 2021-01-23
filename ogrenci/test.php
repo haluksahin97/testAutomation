@@ -10,7 +10,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
 
-    <link rel="stylesheet" href="../css/style.css?v=5" >
+    <link rel="stylesheet" href="../css/style.css?v=9" >
     
 </head>
 <body>
@@ -23,6 +23,7 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ml-auto">
                     <a class="nav-link pl-4" href="testler.php">Testler</a>
+                    <a class="nav-link pl-4" href="testsonuc.php">Sonuclar</a>
                     <a class="nav-link pl-4" href="signOut.php"><i class="fas fa-sign-out-alt"></i></a>
                 </div>
             </div>
@@ -51,6 +52,7 @@
                             $secenek1 = $row['secenek1'];
                             $secenek2 = $row['secenek2'];
                             $secenek3 = $row['secenek3'];
+                            $secenekler = $row['secenekler'];
                             $soru = str_replace("\n", '<br>', $soru);
                             $cevap = str_replace("\n", '<br>', $cevap);
                             $secenek1 = str_replace("\n", '<br>', $secenek1);
@@ -61,7 +63,7 @@
                             $siklar[1] = array($secenek1, $cevap, $secenek2, $secenek3);
                             $siklar[2] = array($secenek2, $secenek3, $cevap, $secenek1);
                             $siklar[3] = array($secenek3, $secenek2, $secenek1, $cevap);
-                            $randomSayi = mt_rand(0,3);
+
                             ?>
                             <li class="m-0 p-0">
                                 <div class="testQuestion border rounded p-4 m-2">
@@ -71,10 +73,10 @@
                                     <p><?php echo $soruSayac . "- " . $soru; ?></p>
                                     <hr width="50%" >
                                     <ul>
-                                        <li><div class="w-100 mt-3"><a class="option" onclick="optionClick(<?php echo $soruSayac; ?>, '1')"><?php echo "A) " . $siklar[$randomSayi][0]; ?></a></div></li>
-                                        <li><div class="w-100 mt-3"><a class="option" onclick="optionClick(<?php echo $soruSayac; ?>, '2')"><?php echo "B) " . $siklar[$randomSayi][1]; ?></a></div></li>
-                                        <li><div class="w-100 mt-3"><a class="option" onclick="optionClick(<?php echo $soruSayac; ?>, '3')"><?php echo "C) " . $siklar[$randomSayi][2]; ?></a></div></li>
-                                        <li><div class="w-100 mt-3"><a class="option" onclick="optionClick(<?php echo $soruSayac; ?>, '4')"><?php echo "D) " . $siklar[$randomSayi][3]; ?></a></div></li>
+                                        <li><div class="w-100 mt-3"><a class="option" onclick="optionClick(<?php echo $soruSayac; ?>, '1')"><?php echo "A) " . $siklar[$secenekler][0]; ?></a></div></li>
+                                        <li><div class="w-100 mt-3"><a class="option" onclick="optionClick(<?php echo $soruSayac; ?>, '2')"><?php echo "B) " . $siklar[$secenekler][1]; ?></a></div></li>
+                                        <li><div class="w-100 mt-3"><a class="option" onclick="optionClick(<?php echo $soruSayac; ?>, '3')"><?php echo "C) " . $siklar[$secenekler][2]; ?></a></div></li>
+                                        <li><div class="w-100 mt-3"><a class="option" onclick="optionClick(<?php echo $soruSayac; ?>, '4')"><?php echo "D) " . $siklar[$secenekler][3]; ?></a></div></li>
                                     </ul>
                                 </div>
                             </li>
@@ -88,7 +90,20 @@
                 <h3 id="timerWrite"></h3>
             </div>
         </div>
+        <div id="testFinish">
+            <div class="content">
+                <h2 class="mb-4" id="testFinishHead">Süreniz bitti.</h2>
+                
+                <h5 id="testFinishContent" class="mb-5">Sonuç sayfasına yönlendiriliyorsunuz. </h5>
+            </div>
+        </div>
     </main>
+
+    <?php 
+        $sql = mysqli_query(baglanti(),"Select sure from testadi where adi = '$testAd' and sinif = '$ogrenciSinif'");
+        $row = mysqli_fetch_array($sql);
+        $sure = $row['sure'];
+    ?>
     
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
@@ -107,28 +122,45 @@
                 display.text(minutes + ":" + seconds);
 
                 if (--timer < 0) {
-                    timer = duration;
+                    $('body').css('overflow', 'hidden');
+                    $('#testFinish').css('display', 'block');
+                    $('#testFinishHead').html("Süreniz Bitti.");
+                    $('#testFinishContent').html("Sonuç sayfasına yönlendiriliyorsunuz...");
+                    $('#testFinishButton').css('display', 'none');
+                    setTimeout(function() { window.location.href = "testsonuc.php?test=<?php echo $testAd ?>"}, 3000);
                 }
             }, 1000);
         }
+        
+        var time = <?php echo $sure ?>;
 
         $( document ).ready(function() {
-            var fiveMinutes = 60 * 5,
+            var fiveMinutes = 1 * time,
             display = $('#timerWrite');
             startTimer(fiveMinutes, display);
+
+            $('#testFinish').css('display', 'none');
         });
         var questions = [];
         var oldquestions = [];
         function optionClick(questionNo, option) {
-            if(questions[questionNo]) {
-                $( "ul li:nth-child("+questionNo+")>div>ul li:nth-child("+oldquestions[questionNo]+")>div>a " ).css("color", "black");
-            $( "ul li:nth-child("+questionNo+")>div>ul li:nth-child("+oldquestions[questionNo]+")>div>a " ).css("font-weight", "400");
+            if(oldquestions[questionNo] != option) {
+                if(questions[questionNo]) {
+                    $( "ul li:nth-child("+questionNo+")>div>ul li:nth-child("+oldquestions[questionNo]+")>div>a " ).css("color", "black");
+                    $( "ul li:nth-child("+questionNo+")>div>ul li:nth-child("+oldquestions[questionNo]+")>div>a " ).css("font-weight", "400");
+                }
+                questions[questionNo] = true;
+                oldquestions[questionNo] = option;
+                $( "ul li:nth-child("+questionNo+")>div>ul li:nth-child("+option+")>div>a " ).css("color", "#ff6a00");
+                $( "ul li:nth-child("+questionNo+")>div>ul li:nth-child("+option+")>div>a " ).css("font-weight", "500");
+                
+                var xhttp;
+                xhttp = new XMLHttpRequest();
+                xhttp.open("GET", "updateTestAnswer.php?question="+questionNo+"&&option="+option+"&&test=<?php echo $testAd?>", true);
+                xhttp.send();
             }
-            questions[questionNo] = true;
-            oldquestions[questionNo] = option;
-            $( "ul li:nth-child("+questionNo+")>div>ul li:nth-child("+option+")>div>a " ).css("color", "#ff6a00");
-            $( "ul li:nth-child("+questionNo+")>div>ul li:nth-child("+option+")>div>a " ).css("font-weight", "500");
         }
+        
     </script>
 </body>
 </html>
