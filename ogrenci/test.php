@@ -46,6 +46,7 @@
                         $soruSayac = 0;
                         while($row = mysqli_fetch_array($sql)){
                             $soruSayac++;
+                            $soruid = $row['id'];
                             $soru = $row['soru'];
                             $resim = $row['resim'];
                             $cevap = $row['cevap'];
@@ -73,10 +74,10 @@
                                     <p><?php echo $soruSayac . "- " . $soru; ?></p>
                                     <hr width="50%" >
                                     <ul>
-                                        <li><div class="w-100 mt-3"><a class="option" onclick="optionClick(<?php echo $soruSayac; ?>, '1')"><?php echo "A) " . $siklar[$secenekler][0]; ?></a></div></li>
-                                        <li><div class="w-100 mt-3"><a class="option" onclick="optionClick(<?php echo $soruSayac; ?>, '2')"><?php echo "B) " . $siklar[$secenekler][1]; ?></a></div></li>
-                                        <li><div class="w-100 mt-3"><a class="option" onclick="optionClick(<?php echo $soruSayac; ?>, '3')"><?php echo "C) " . $siklar[$secenekler][2]; ?></a></div></li>
-                                        <li><div class="w-100 mt-3"><a class="option" onclick="optionClick(<?php echo $soruSayac; ?>, '4')"><?php echo "D) " . $siklar[$secenekler][3]; ?></a></div></li>
+                                        <li><div class="w-100 mt-3"><a class="option" onclick="optionClick(<?php echo $soruSayac; ?>, <?php echo $soruid?>, '1', '<?php echo $siklar[$secenekler][0] ?>')"><?php echo "A) " . $siklar[$secenekler][0]; ?></a></div></li>
+                                        <li><div class="w-100 mt-3"><a class="option" onclick="optionClick(<?php echo $soruSayac; ?>, <?php echo $soruid?>, '2', '<?php echo $siklar[$secenekler][1] ?>')"><?php echo "B) " . $siklar[$secenekler][1]; ?></a></div></li>
+                                        <li><div class="w-100 mt-3"><a class="option" onclick="optionClick(<?php echo $soruSayac; ?>, <?php echo $soruid?>, '3', '<?php echo $siklar[$secenekler][2] ?>')"><?php echo "C) " . $siklar[$secenekler][2]; ?></a></div></li>
+                                        <li><div class="w-100 mt-3"><a class="option" onclick="optionClick(<?php echo $soruSayac; ?>, <?php echo $soruid?>, '4', '<?php echo $siklar[$secenekler][3] ?>')"><?php echo "D) " . $siklar[$secenekler][3]; ?></a></div></li>
                                     </ul>
                                 </div>
                             </li>
@@ -143,20 +144,20 @@
         });
         var questions = [];
         var oldquestions = [];
-        function optionClick(questionNo, option) {
-            if(oldquestions[questionNo] != option) {
+        function optionClick(questionNo, questionId, optionNo, option) {
+            if(oldquestions[questionNo] != optionNo) {
                 if(questions[questionNo]) {
                     $( "ul li:nth-child("+questionNo+")>div>ul li:nth-child("+oldquestions[questionNo]+")>div>a " ).css("color", "black");
                     $( "ul li:nth-child("+questionNo+")>div>ul li:nth-child("+oldquestions[questionNo]+")>div>a " ).css("font-weight", "400");
                 }
                 questions[questionNo] = true;
-                oldquestions[questionNo] = option;
-                $( "ul li:nth-child("+questionNo+")>div>ul li:nth-child("+option+")>div>a " ).css("color", "#ff6a00");
-                $( "ul li:nth-child("+questionNo+")>div>ul li:nth-child("+option+")>div>a " ).css("font-weight", "500");
+                oldquestions[questionNo] = optionNo;
+                $( "ul li:nth-child("+questionNo+")>div>ul li:nth-child("+optionNo+")>div>a " ).css("color", "#ff6a00");
+                $( "ul li:nth-child("+questionNo+")>div>ul li:nth-child("+optionNo+")>div>a " ).css("font-weight", "500");
                 
                 var xhttp;
                 xhttp = new XMLHttpRequest();
-                xhttp.open("GET", "updateTestAnswer.php?question="+questionNo+"&&option="+option+"&&test=<?php echo $testAd?>", true);
+                xhttp.open("GET", "updateTestAnswer.php?question="+questionNo+"&&questionId="+questionId+"&&optionNo="+optionNo+"&&option="+option, true);
                 xhttp.send();
             }
         }

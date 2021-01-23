@@ -31,7 +31,57 @@
     </nav>
     
     <main role="main">
-        
+        <div class="container">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Soru</th>
+                                <th scope="col">Doğru Cevap</th>
+                                <th scope="col">Sizin Cevabınız</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php 
+                        
+                            $testAd = $_GET['test'];
+                            $sayac = 0;
+                            $sql = mysqli_query(baglanti(), "Select cevap,soru,secenekler,id from sorular where sinif='$ogrenciSinif' and testadi='$testAd'");
+
+                            while($row = mysqli_fetch_array($sql)) {
+                                $sayac++;
+                                $cevap = $row['cevap'];
+                                $secenek = $row['secenekler'];
+                                $soru = $row['soru'];
+                                $soruid = $row['id'];
+                                $ogrenciCevap = "";
+                                
+                                $sql1 = mysqli_query(baglanti(), "Select cevap from cevaplar where ogrenciNo='$ogrenciNo' and soruid='$soruid'");
+
+                                while($row1 = mysqli_fetch_array($sql1)) {
+                                
+                                    $ogrenciCevap = $row1['cevap'];
+                                }
+                                if($cevap == $ogrenciCevap) {
+                                    $color = "success";
+                                }
+                                else {
+                                    $color = "danger";
+                                }
+                            ?>
+                            <tr class="text-<?php echo $color ?>">
+                                <th scope="row"><?php echo $sayac; ?></th>
+                                <td><?php echo $soru; ?></td>
+                                <td><?php echo $cevap; ?></td>
+                                <td><?php echo $ogrenciCevap; ?></td>
+                            </tr>
+                            
+                        <?php
+                            }
+                        ?>
+                        </tbody>
+                    </table>
+        </div>
     </main>
     
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
