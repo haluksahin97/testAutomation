@@ -83,6 +83,6 @@
     $sql="insert into sorular (soru, resim, cevap, secenek1, secenek2, secenek3, sinif, cozum, testadi, secenekler) values ('$soru', '$resim', '$cevap', '$secenek1', '$secenek2', '$secenek3', '$sinif', '$cozum', '$testadi', '$secenekler')";
     mysqli_query(baglanti(),$sql) or die ("Kayıt ekleme sorgusunda hata oluştu");
 
-    header("Location:yenisoru.php?sinif=$sinif&&testadi=$testadi");
+    header("Location:index.php?sinif=$sinif&&testadi=$testadi");
 
     

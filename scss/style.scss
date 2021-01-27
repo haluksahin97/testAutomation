@@ -9,7 +9,7 @@ $mediumScreen: 993px;
     }
 }
 
-.questionsList {
+.questionsList, .adminTestResults {
   .table td, .table th {
     vertical-align: middle !important;
   }
@@ -19,6 +19,15 @@ $mediumScreen: 993px;
     object-position: 50% 50%;
   }
     
+}
+.adminTestResults {
+  table{
+    tr {
+      th:nth-child(n+4), td:nth-child(n+4) {
+        text-align: center;
+      }
+    }
+  }
 }
 .Students {
   .table td, .table th {
@@ -163,5 +172,16 @@ $mediumScreen: 993px;
       .btn {
         width:100px;
       }
+    }
+  }
+  .testResult {
+    td{
+      vertical-align: middle;
+    }
+    img {
+      object-fit: contain;
+    }
+    .text-danger {
+      font-weight: 500;
     }
   }

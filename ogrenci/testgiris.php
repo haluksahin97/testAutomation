@@ -16,14 +16,13 @@
 <body>
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bd-navbar bg-dark" id="navbarId">
         <div class="container">
-        <a class="navbar-brand" href="yenisoru.php">Fatih ÖZCAN</a>
+        <a class="navbar-brand" href="index.php">Fatih ÖZCAN</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ml-auto">
-                    <a class="nav-link pl-4" href="testler.php">Testler</a>
-                    <a class="nav-link pl-4" href="testsonuc.php">Sonuclar</a>
+                    <a class="nav-link pl-4" href="index.php">Ana Sayfa</a>
                     <a class="nav-link pl-4" href="signOut.php"><i class="fas fa-sign-out-alt"></i></a>
                 </div>
             </div>

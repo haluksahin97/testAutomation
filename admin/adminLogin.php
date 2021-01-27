@@ -18,13 +18,13 @@
     {
         $_SESSION['admin'] = null;
         
-        header("Location:index.php?username=$username");
+        header("Location:giris.php?username=$username");
     }
     else
     {
         $_SESSION['admin'] = "success";
 
-        header("Location:yenisoru.php");
+        header("Location:index.php");
     
     }
     

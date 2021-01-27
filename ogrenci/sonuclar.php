@@ -16,14 +16,14 @@
 <body>
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bd-navbar bg-dark" id="navbarId">
         <div class="container">
-        <a class="navbar-brand" href="yenisoru.php">Fatih ÖZCAN</a>
+        <a class="navbar-brand" href="testler.php">Fatih ÖZCAN</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ml-auto">
-                    <a class="nav-link active pl-4" href="testler.php">Testler</a>
-                    <a class="nav-link pl-4" href="testsonuc.php">Sonuclar</a>
+                    <a class="nav-link pl-4" href="testler.php">Testler</a>
+                    <a class="nav-link pl-4 active" href="sonuclar.php">Sonuclar</a>
                     <a class="nav-link pl-4" href="signOut.php"><i class="fas fa-sign-out-alt"></i></a>
                 </div>
             </div>
@@ -37,18 +37,18 @@
                 <h4>Merhaba <?php echo $ogrenciAd . " " . $ogrenciSoyad ?></h4>
 
                 
-                <h1 class="text-center">Testler</h1>
+                <h1 class="text-center">Sonuclar</h1>
     
                 <hr width="61px">
 
             </div>
             <?php
-                $sql = mysqli_query(baglanti(),"Select DISTINCT testadi from sorular where testadi != 'YOK' and sinif = '$ogrenciSinif' ");
+                $sql = mysqli_query(baglanti(),"Select testadi from sonuclar where ogrencino = '$ogrenciNo' ");
                     
                 while($row = mysqli_fetch_array($sql)){
             ?>
                     <div class="w-100 d-flex justify-content-center">
-                        <a class="btn btn-danger w-25 mt-3" href="testgiris.php?test=<?php echo $row['testadi'] ?>"><?php echo $row['testadi'] ?> Testi</a>
+                        <a class="btn btn-danger w-25 mt-3" href="testsonuc.php?test=<?php echo $row['testadi'] ?>"><?php echo $row['testadi'] ?> Testi</a>
                     </div>
             <?php
                 }

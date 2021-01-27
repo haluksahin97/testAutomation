@@ -20,17 +20,17 @@
 
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bd-navbar bg-dark" id="navbarId">
         <div class="container">
-            <a class="navbar-brand" href="yenisoru.php">Fatih ÖZCAN</a>
+            <a class="navbar-brand" href="index.php">Fatih ÖZCAN</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ml-auto">
-                    <a class="nav-link pl-4" href="yenisoru.php">Yeni Soru</a>
+                    <a class="nav-link pl-4" href="index.php">Yeni Soru</a>
                     <a class="nav-link pl-4" href="sorular.php">Sorular</a>
                     <a class="nav-link pl-4" href="yeniogrenci.php">Yeni Öğrenci</a>
                     <a class="nav-link active pl-4" href="ogrenciler.php">Öğrenciler</a>
-                    <a class="nav-link pl-4" href="testata.php">Test Ata</a>
+                    <a class="nav-link pl-4" href="testsonuclar.php">Test Sonuçları</a>
                     <a class="nav-link pl-4" href="signOut.php"><i class="fas fa-sign-out-alt"></i></a>
                 </div>
             </div>
@@ -53,8 +53,8 @@
     <?php
 
         if(!empty($_GET["sinif"])){
+            $sinif = $_GET["sinif"];
             if(!empty($_GET["subeadi"])) {
-                $sinif = $_GET["sinif"];
                 $subeadi = $_GET["subeadi"];
 
                 $ogrenciSayac = 0;
@@ -171,7 +171,10 @@
                                                     <td ondblclick="itemDoubleClick(this,ogrencilerId[<?php echo $i; ?>], 'soyadi')"><?php echo $ogrenciler[$i]["soyadi"] ?></td>
                                                     <td ondblclick="itemDoubleClick(this,ogrencilerId[<?php echo $i; ?>], 'sinif')"><?php echo $ogrenciler[$i]["sinif"] ?></td>
                                                     <td ondblclick="itemDoubleClick(this,ogrencilerId[<?php echo $i; ?>], 'subeadi')"><?php echo $ogrenciler[$i]["subeadi"] ?></td>
-                                                    <td><a href="deleteStudents.php?id=<?php echo $ogrenciler[$i]["id"] ?>&&sinif=<?php echo $sinif ?>&&subeadi=<?php echo $_GET['subeadi'] ?>" class="btn btn-danger">Sil</a></td>
+                                                    <td>
+                                                        <a href="deleteStudents.php?id=<?php echo $ogrenciler[$i]["id"] ?>&&sinif=<?php echo $sinif ?>&&subeadi=<?php echo $_GET['subeadi'] ?>" class="btn btn-danger">Sil</a>
+                                                        <a href="sonuc.php?ogrencino=<?php echo $ogrenciler[$i]["ogrencino"] ?>&&sinif=<?php echo $sinif ?>" class="btn btn-success">Sonuçlar</a>
+                                                    </td>
                                                 </tr>
                                             <?php
                                         }
@@ -197,8 +200,7 @@
                                     <a href="ogrenciler.php?sinif=<?php echo $_GET["sinif"] ?>&&subeadi=YOK" class="btn btn-primary mt-4 w-100">Şubesi olmayan öğrenciler</a>
                                 </div>
         <?php
-                        
-                                $sql = mysqli_query(baglanti(),"Select * from subeadi");
+                                $sql = mysqli_query(baglanti(),"Select * from subeadi where sinif='$sinif'");
                         
                                 while($row = mysqli_fetch_array($sql)){
         ?>

@@ -16,14 +16,13 @@
 <body>
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bd-navbar bg-dark" id="navbarId">
         <div class="container">
-        <a class="navbar-brand" href="yenisoru.php">Fatih ÖZCAN</a>
+        <a class="navbar-brand" href="index.php">Fatih ÖZCAN</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ml-auto">
-                    <a class="nav-link pl-4" href="testler.php">Testler</a>
-                    <a class="nav-link pl-4" href="testsonuc.php">Sonuclar</a>
+                    <a class="nav-link pl-4" href="index.php">Ana Sayfa</a>
                     <a class="nav-link pl-4" href="signOut.php"><i class="fas fa-sign-out-alt"></i></a>
                 </div>
             </div>
@@ -90,6 +89,9 @@
             <div class="timer">
                 <h3 id="timerWrite"></h3>
             </div>
+            <div class="container d-flex justify-content-end">
+                <button class="btn btn-primary mt-4 mb-4" onclick="finishButtonClick()">Testi Bitir</button>
+            </div>
         </div>
         <div id="testFinish">
             <div class="content">
@@ -101,7 +103,7 @@
     </main>
 
     <?php 
-        $sql = mysqli_query(baglanti(),"Select sure from testadi where adi = '$testAd' and sinif = '$ogrenciSinif'");
+        $sql = mysqli_query(baglanti(),"Select sure from testadi where adi = 'efsaneler' and sinif = '4'");
         $row = mysqli_fetch_array($sql);
         $sure = $row['sure'];
     ?>
@@ -136,7 +138,7 @@
         var time = <?php echo $sure ?>;
 
         $( document ).ready(function() {
-            var fiveMinutes = 1 * time,
+            var fiveMinutes = 60 * time,
             display = $('#timerWrite');
             startTimer(fiveMinutes, display);
 
@@ -160,6 +162,17 @@
                 xhttp.open("GET", "updateTestAnswer.php?question="+questionNo+"&&questionId="+questionId+"&&optionNo="+optionNo+"&&option="+option, true);
                 xhttp.send();
             }
+        }
+
+        function finishButtonClick() {
+            var kalansure= $('#timerWrite').text();
+            $('body').css('overflow', 'hidden');
+            $('#testFinish').css('display', 'block');
+            $('#testFinishHead').html("Testi Başarıyla Tamamladınız.");
+            $('#testFinishContent').html("Sonuç sayfasına yönlendiriliyorsunuz...");
+            $('#testFinishButton').css('display', 'none');
+            setTimeout(function() { window.location.href = "testsonuc.php?<?php echo "test=$testAd&&sure="?>"+kalansure}, 3000);
+
         }
         
     </script>

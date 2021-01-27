@@ -24,7 +24,7 @@
     {
         $_SESSION['student'] = $ogrencino;
 
-        header("Location:testler.php");
+        header("Location:index.php");
     
     }
     

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include_once("../sabitler/standardsStudents.php"); ?>
+    <?php include_once("../sabitler/standardsAdmin.php"); ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fatih Özcan</title>
@@ -16,13 +16,17 @@
 <body>
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bd-navbar bg-dark" id="navbarId">
         <div class="container">
-        <a class="navbar-brand" href="index.php">Fatih ÖZCAN</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+            <a class="navbar-brand" href="index.php">Fatih ÖZCAN</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ml-auto">
-                    <a class="nav-link pl-4" href="index.php">Ana Sayfa</a>
+                    <a class="nav-link pl-4" href="index.php">Yeni Soru</a>
+                    <a class="nav-link pl-4" href="sorular.php">Sorular</a>
+                    <a class="nav-link pl-4" href="yeniogrenci.php">Yeni Öğrenci</a>
+                    <a class="nav-link pl-4" href="ogrenciler.php">Öğrenciler</a>
+                    <a class="nav-link pl-4" href="testsonuclar.php">Test Sonuçları</a>
                     <a class="nav-link pl-4" href="signOut.php"><i class="fas fa-sign-out-alt"></i></a>
                 </div>
             </div>
@@ -34,6 +38,8 @@
             if(!empty($_GET['test'])) {
                 
                 $testAd = $_GET['test'];
+                $ogrenciNo = $_GET['ogrencino'];
+                $ogrenciSinif = $_GET['sinif'];
         ?>
         <div class="container testResult">
             <div class="row">
@@ -44,7 +50,7 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Soru</th>
                                 <th scope="col">Doğru Cevap</th>
-                                <th scope="col">Sizin Cevabınız</th>
+                                <th scope="col">Öğrencinin Cevabı</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -88,7 +94,7 @@
                             ?>
                             <tr class="text-<?php echo $color ?>">
                                 <th scope="row"><?php echo $sayac; ?></th>
-                                <td><?php if($resim != "BOŞ") { ?><img src="../admin/uploads/<?php echo $resim ?>" width="150px" height="150px" > <?php } echo $soru; ?></td>
+                                <td><?php if($resim != "BOŞ") { ?><img src="uploads/<?php echo $resim ?>" width="150px" height="150px" > <?php } echo $soru; ?></td>
                                 <td><?php echo $cevap; ?></td>
                                 <td><?php if($color == "danger") { echo $ogrenciCevap; } ?></td>
                             </tr>
@@ -102,10 +108,10 @@
                     </table>
                 </div>
                 <div class="col-12 col-lg-4">
-                    <div id="dogruSayisi">Doğru sayınız: <?php echo $dogruSayisi ?></div>
-                    <div id="yanlisSayisi">Yanlış sayınız: <?php echo $yanlisSayisi ?></div>
-                    <div id="bosSayisi">Boş sayınız: <?php echo $bosSayisi ?></div>
-                    <div id="netSayisi">Net sayınız: <?php echo $netSayisi ?></div>
+                    <div id="dogruSayisi">Doğru sayısı: <?php echo $dogruSayisi ?></div>
+                    <div id="yanlisSayisi">Yanlış sayısı: <?php echo $yanlisSayisi ?></div>
+                    <div id="bosSayisi">Boş sayısı: <?php echo $bosSayisi ?></div>
+                    <div id="netSayisi">Net sayısı: <?php echo $netSayisi ?></div>
                     <?php 
                     if(!empty($testAd)) {
                         $sql = mysqli_query(baglanti(),"Select * from sonuclar where ogrencino='$ogrenciNo' and testadi='$testAd'");
@@ -113,13 +119,12 @@
                         $row = mysqli_fetch_array($sql);
                         
                         $sonucKontrol = $row['netsayisi'];
-                        $sure = "00:".$_GET['sure'];
                         
                         if (!empty($sonucKontrol)) {
-                            $sql="Update sonuclar Set dogrusayisi='$dogruSayisi', yanlissayisi='$yanlisSayisi', bossayisi='$bosSayisi', netsayisi='$netSayisi', sure='$sure' Where ogrencino='$ogrenciNo' and testadi='$testAd' ";
+                            $sql="Update sonuclar Set dogrusayisi='$dogruSayisi', yanlissayisi='$yanlisSayisi', bossayisi='$bosSayisi', netsayisi='$netSayisi' Where ogrencino='$ogrenciNo' and testadi='$testAd' ";
                         }
                         else {                        
-                            $sql="insert into sonuclar (ogrencino, testadi, dogrusayisi, yanlissayisi, bossayisi, netsayisi, sure) values ('$ogrenciNo', '$testAd', '$dogruSayisi', '$yanlisSayisi', '$bosSayisi', '$netSayisi', '$sure')";
+                            $sql="insert into sonuclar (ogrencino, testadi, dogrusayisi, yanlissayisi, bossayisi, netsayisi) values ('$ogrenciNo', '$testAd', '$dogruSayisi', '$yanlisSayisi', '$bosSayisi', '$netSayisi')";
                         }
                         mysqli_query(baglanti(),$sql);
                     }

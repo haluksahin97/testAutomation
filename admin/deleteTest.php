@@ -10,8 +10,8 @@ $url = $_SERVER['HTTP_REFERER'];
 $url  =  explode('?', $url);
 echo $url[0];
 
-// if($url[0] == "http://127.0.0.1/fatihozcan/admin/yenisoru.php"){
-if($url[0] == "https://www.haluksahn.com/fatihozcan/admin/yenisoru.php"){
+// if($url[0] == "http://127.0.0.1/fatihozcan/admin/index.php"){
+if($url[0] == "https://www.haluksahn.com/fatihozcan/admin/index.php"){
 
     $sql = mysqli_query(baglanti(),"Select * from testadi where id='$testId'");
     $row = mysqli_fetch_array($sql);
@@ -24,6 +24,6 @@ if($url[0] == "https://www.haluksahn.com/fatihozcan/admin/yenisoru.php"){
     $sqlUpdate="Update sorular Set testadi='YOK' Where testadi='$testAdi'";
     mysqli_query(baglanti(), $sqlUpdate);
 }
-header("location:yenisoru.php?sinif=$sinif");
+header("location:index.php?sinif=$sinif");
 ?>
   
