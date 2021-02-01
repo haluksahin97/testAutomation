@@ -38,7 +38,7 @@
             </div>
             <div class="row">
                     <?php
-                        $testAd = $_GET['test'];
+                        $testAd = htmlentities($_GET["test"], ENT_QUOTES, "UTF-8");
                         $sql = mysqli_query(baglanti(),"Select * from sorular where testadi = '$testAd' and sinif = '$ogrenciSinif'");
                         $soruSayac = 0;
                         while($row = mysqli_fetch_array($sql)){

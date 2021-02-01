@@ -3,8 +3,9 @@
     include_once("../sabitler/sabit.php");
     include_once("../sabitler/baglanti.php");
 
-    $username= $_POST["username"];
-    $password=$_POST["password"];
+    $username= htmlentities($_POST["username"], ENT_QUOTES, "UTF-8");
+    $usernameQuery= $_POST["username"];
+    $password=htmlentities($_POST["password"], ENT_QUOTES, "UTF-8");
 
     
     $sql = "Select * from admin Where username='$username' and password='$password'";
@@ -18,7 +19,7 @@
     {
         $_SESSION['admin'] = null;
         
-        header("Location:giris.php?username=$username");
+        header("Location:giris.php?username=$usernameQuery");
     }
     else
     {

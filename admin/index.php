@@ -54,6 +54,7 @@
         <?php
             if(!empty($_GET["sinif"])){
                 if(!empty($_GET["testadi"])) { // Bilgi giriş ekranı -----------------------
+                    $testadi = htmlentities($_GET["testadi"], ENT_QUOTES, "UTF-8");
         ?>
             <div class="header pt-2 mt-4">
                 <div class="row">
@@ -72,7 +73,7 @@
                                     $sql = mysqli_query(baglanti(),"Select * from testadi");
                                         
                                     while($row = mysqli_fetch_array($sql)){
-                                        if($_GET['testadi'] != $row['adi']) {
+                                        if($testadi != $row['adi']) {
                                 ?>
                                             <li role="presentation"><a role="menuitem" tabindex="-1" href="index.php?sinif=<?php echo $_GET['sinif']; ?>&&testadi=<?php echo $row['adi']?>"><?php echo $row['adi']; ?></a></li>
                                     
@@ -164,7 +165,7 @@
                         <div class="row">
                             <div class="col-6">
         <?php
-                        $sinif = $_GET['sinif'];
+                        $sinif = htmlentities($_GET["sinif"], ENT_QUOTES, "UTF-8");
                         $sql = mysqli_query(baglanti(),"Select * from testadi where sinif='$sinif'");
                 
                         while($row = mysqli_fetch_array($sql)){

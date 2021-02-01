@@ -5,7 +5,7 @@
         session_start();
         
         if(!empty($_SESSION['student'])) {
-            header("location:testler.php");
+            header("location:index.php");
         }
     ?>
     <meta charset="UTF-8">
@@ -16,53 +16,58 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
 
-    <link rel="stylesheet" href="../css/style.css?v=5" >
+    <link rel="stylesheet" href="../css/style.css?v=15" >
 
 </head>
 <body>
     
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 offset-lg-3">
-                <div class="header pt-5x mt-5">
-                    <h1 class="text-center">Öğrenci Girişi</h1>
-        
-                    <hr width="61px">
-                </div>
-                <form class="mt-5 needs-validation" action="studentLogin.php" method="POST" novalidate>
-                    <div class="form-group row">
-                        <div class="col-4">
-                            <label class="mt-1">Öğrenci Numaranız</label>
-                        </div>
-                        <div class="col-8">
-                            <input type="text" class="form-control" placeholder="Öğrenci Numaranız" value="<?php if(!empty($_GET['username'])){ echo $_GET['username'];} ?>" name="ogrencino" required>
-                        </div>
+    <div class="container studentLogin">
+        <div class="row mt-5">
+            <div class="col-lg-6 offset-lg-3 p-5 mt-5 border">
+                <div class="mt-5 mb-5">
+                    <div class="header">
+                        <h1 class="text-center">Öğrenci Girişi</h1>
+            
+                        <hr width="61px">
                     </div>
-                    <div class="form-group row">
-                        <div class="col-4">
-                            <label class="mt-1">Şifreniz</label>
-                        </div>
-                        <div class="col-8">
-                            <input type="password" class="form-control" placeholder="Şifreniz" name="password" required>
-                        </div>
-                    </div>
-                    <?php
-                    if(!empty($_GET['username'])) {
-                    ?>
+                    <form class="mt-5 needs-validation" action="studentLogin.php" method="POST" novalidate>
                         <div class="form-group row">
-                            <div class="col-12">
-                                <label class="mt-1 text-danger">Öğrenci numaranız ya da şifreniz hatalı. Kontrol edip tekrar giriniz.</label>
+                            <div class="col-4">
+                                <label class="mt-1">Öğrenci Numaranız</label>
+                            </div>
+                            <div class="col-8">
+                                <input type="text" class="form-control" placeholder="Öğrenci Numaranız" value="<?php if(!empty($_GET['username'])){ echo $_GET['username'];} ?>" name="ogrencino" required>
                             </div>
                         </div>
-                    <?php
-                    }
-                    ?>
-                    <div class="form-group row">
-                        <div class="col-8 offset-4">
-                            <button type="submit" class="btn btn-dark w-100">Giriş</button>
+                        <div class="form-group row">
+                            <div class="col-4">
+                                <label class="mt-1">Şifreniz</label>
+                            </div>
+                            <div class="col-8">
+                                <input type="password" class="form-control" placeholder="Şifreniz" name="password" required>
+                            </div>
                         </div>
+                        <?php
+                        if(!empty($_GET['username'])) {
+                        ?>
+                            <div class="form-group row">
+                                <div class="col-12">
+                                    <label class="mt-1 text-danger">Öğrenci numaranız ya da şifreniz hatalı. Kontrol edip tekrar giriniz.</label>
+                                </div>
+                            </div>
+                        <?php
+                        }
+                        ?>
+                        <div class="form-group row">
+                            <div class="col-8 offset-4">
+                                <button type="submit" class="btn btn-dark w-100">Giriş</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="text-center mt-4">
+                        <a href="kayitol.php">Kayıt Ol!</a>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>

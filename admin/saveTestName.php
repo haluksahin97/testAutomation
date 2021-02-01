@@ -1,7 +1,7 @@
 <?php
     include_once("../sabitler/standardsAdmin.php");
 
-    $sinif = $_GET['sinif'];
+    $sinif = htmlentities($_GET["sinif"], ENT_QUOTES, "UTF-8");
 
     $testadi= htmlentities($_POST["testadi"], ENT_QUOTES, "UTF-8");
     $sure= htmlentities($_POST["sure"], ENT_QUOTES, "UTF-8");

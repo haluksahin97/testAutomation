@@ -53,9 +53,9 @@
     <?php
 
         if(!empty($_GET["sinif"])){
-            $sinif = $_GET["sinif"];
+            $sinif = htmlentities($_GET["sinif"], ENT_QUOTES, "UTF-8");
             if(!empty($_GET["subeadi"])) {
-                $subeadi = $_GET["subeadi"];
+                $subeadi = htmlentities($_GET["subeadi"], ENT_QUOTES, "UTF-8");
 
                 $ogrenciSayac = 0;
         
@@ -102,6 +102,7 @@
         <?php
             if(!empty($_GET["sinif"])){
                 if(!empty($_GET["subeadi"])) { // Bilgilerin göründüğü ekran ---------------------
+                    $subeadi = htmlentities($_GET["subeadi"], ENT_QUOTES, "UTF-8");
         ?>
                     <div class="header pt-2 mt-4">
                         <div class="row">
@@ -117,7 +118,7 @@
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                                         
                                         <?php 
-                                            if($_GET['subeadi'] != "YOK") {
+                                            if($subeadi != "YOK") {
                                         ?>
                                             <li role="presentation"><a role="menuitem" tabindex="-1" href="ogrenciler.php?sinif=<?php echo $_GET['sinif']; ?>&&subeadi=YOK">Şube Adı Olmayanlar</a></li>
                                         <?php
@@ -129,7 +130,7 @@
                                             $sql = mysqli_query(baglanti(),"Select * from subeadi");
                                                 
                                             while($row = mysqli_fetch_array($sql)){
-                                                if($_GET['subeadi'] != $row['adi']) {
+                                                if($subeadi != $row['adi']) {
                                         ?>
                                                     <li role="presentation"><a role="menuitem" tabindex="-1" href="ogrenciler.php?sinif=<?php echo $_GET['sinif']; ?>&&subeadi=<?php echo $row['adi']?>"><?php echo $row['adi']; ?></a></li>
                                             

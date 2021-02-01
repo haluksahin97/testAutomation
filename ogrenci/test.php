@@ -10,10 +10,28 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
 
-    <link rel="stylesheet" href="../css/style.css?v=9" >
+    <link rel="stylesheet" href="../css/style.css?v=13" >
     
 </head>
 <body>
+    <?php 
+        $testAd = htmlentities($_GET["test"], ENT_QUOTES, "UTF-8");
+        $sql = mysqli_query(baglanti(),"Select * from ilksonuclar where testadi='$testAd' and ogrencino='$ogrenciNo'");
+
+        $row = mysqli_fetch_array($sql);
+        $giris = $row["giris"];
+        if(empty($giris)) {
+            $sql="insert into ilksonuclar (ogrencino, testadi, giris ) values ('$ogrenciNo', '$testAd', '1')";
+        }
+        else {
+            $giris++;            
+            $sql="Update ilksonuclar Set  giris='$giris' Where testadi='$testAd' and ogrencino='$ogrenciNo'";
+            mysqli_query(baglanti(), $sql);
+            $sql="Delete from sonsonuclar where testadi='$testAd' and ogrencino='$ogrenciNo'";
+        }
+        mysqli_query(baglanti(), $sql);
+
+    ?>
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bd-navbar bg-dark" id="navbarId">
         <div class="container">
         <a class="navbar-brand" href="index.php">Fatih ÖZCAN</a>
@@ -37,10 +55,10 @@
                 <hr width="61px">
             </div>
             <div class="row">
-                <div class="col-12 col-lg-8 offset-lg-2">
+                <div class="col-12 col-lg-10 offset-lg-1">
                     <ul class="m-0 p-0">
                     <?php
-                        $testAd = $_GET['test'];
+                        $testAdQuery = $_GET["test"];
                         $sql = mysqli_query(baglanti(),"Select * from sorular where testadi = '$testAd' and sinif = '$ogrenciSinif'");
                         $soruSayac = 0;
                         while($row = mysqli_fetch_array($sql)){
@@ -84,13 +102,13 @@
                         }
                         ?>
                     </ul>
+            <div class="container d-flex justify-content-end">
+                <a class="btn btn-sm animated-button thar-three mb-5" href="javascript:;" onclick="finishButtonClick()">Testi Bitir</a>
+            </div>
                 </div>
             </div>
             <div class="timer">
                 <h3 id="timerWrite"></h3>
-            </div>
-            <div class="container d-flex justify-content-end">
-                <button class="btn btn-primary mt-4 mb-4" onclick="finishButtonClick()">Testi Bitir</button>
             </div>
         </div>
         <div id="testFinish">
@@ -103,7 +121,7 @@
     </main>
 
     <?php 
-        $sql = mysqli_query(baglanti(),"Select sure from testadi where adi = 'efsaneler' and sinif = '4'");
+        $sql = mysqli_query(baglanti(),"Select sure from testadi where adi = '$testAd' and sinif = '$ogrenciSinif'");
         $row = mysqli_fetch_array($sql);
         $sure = $row['sure'];
     ?>
@@ -125,16 +143,19 @@
                 display.text(minutes + ":" + seconds);
 
                 if (--timer < 0) {
+                    leaveControl = true;
+                    var kalansure= $('#timerWrite').text();
                     $('body').css('overflow', 'hidden');
                     $('#testFinish').css('display', 'block');
                     $('#testFinishHead').html("Süreniz Bitti.");
                     $('#testFinishContent').html("Sonuç sayfasına yönlendiriliyorsunuz...");
                     $('#testFinishButton').css('display', 'none');
-                    setTimeout(function() { window.location.href = "testsonuc.php?test=<?php echo $testAd ?>"}, 3000);
+            setTimeout(function() { window.location.href = "saveResult.php?<?php echo "test=$testAdQuery&&sure="?>"+kalansure}, 3000);
                 }
             }, 1000);
         }
         
+        var leaveControl = false;
         var time = <?php echo $sure ?>;
 
         $( document ).ready(function() {
@@ -157,24 +178,53 @@
                 $( "ul li:nth-child("+questionNo+")>div>ul li:nth-child("+optionNo+")>div>a " ).css("color", "#ff6a00");
                 $( "ul li:nth-child("+questionNo+")>div>ul li:nth-child("+optionNo+")>div>a " ).css("font-weight", "500");
                 
+                var testName = "<?php echo $testAdQuery; ?>";
                 var xhttp;
                 xhttp = new XMLHttpRequest();
-                xhttp.open("GET", "updateTestAnswer.php?question="+questionNo+"&&questionId="+questionId+"&&optionNo="+optionNo+"&&option="+option, true);
+                xhttp.open("GET", "updateTestAnswer.php?question="+questionNo+"&&testName="+testName+"&&questionId="+questionId+"&&optionNo="+optionNo+"&&option="+option, true);
                 xhttp.send();
             }
         }
 
         function finishButtonClick() {
+            leaveControl = true;
             var kalansure= $('#timerWrite').text();
             $('body').css('overflow', 'hidden');
             $('#testFinish').css('display', 'block');
             $('#testFinishHead').html("Testi Başarıyla Tamamladınız.");
             $('#testFinishContent').html("Sonuç sayfasına yönlendiriliyorsunuz...");
             $('#testFinishButton').css('display', 'none');
-            setTimeout(function() { window.location.href = "testsonuc.php?<?php echo "test=$testAd&&sure="?>"+kalansure}, 3000);
+            setTimeout(function() { window.location.href = "saveResult.php?<?php echo "test=$testAdQuery&&sure="?>"+kalansure}, 3000);
 
         }
         
+        // window.onbeforeunload = function () {
+        //   return "Testten çıkış yapmak istediğine emin misin? Çıkış yaparsanız sonucunuz kaydolacak.";
+        // }
+
+
+        window.onbeforeunload = function (e) {
+            if(leaveControl == false) {
+
+                var message = "Çıkarsanız sınav sonucunuz kayıt altına alınacak.",
+                e = e || window.event;
+                // For IE and Firefox
+                if (e) {
+                    e.returnValue = message;
+                }
+
+                // For Safari
+                return message;
+            }
+        };
+        // $(window).unload(function(){
+        //     var request = new XMLHttpRequest();
+        //     request.open("GET", "updateTestAnswer.php?question=1&&testName=test&&questionId=1&&optionNo=1&&option=1");
+
+        //     request.send();
+        //     alert('Bye.');
+        // });
     </script>
+    
 </body>
 </html>

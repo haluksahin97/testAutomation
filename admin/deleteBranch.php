@@ -3,8 +3,8 @@
 
 include_once("../sabitler/standardsAdmin.php");
 
-$subeId = $_GET['id'];
-$sinif = $_GET['sinif'];
+$subeId = htmlentities($_GET["id"], ENT_QUOTES, "UTF-8");
+$sinif = htmlentities($_GET["sinif"], ENT_QUOTES, "UTF-8");
 
 $url = $_SERVER['HTTP_REFERER'];
 $url  =  explode('?', $url);

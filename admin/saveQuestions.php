@@ -20,6 +20,7 @@
     $sinif= $url[2];
     $cozum= htmlentities($_POST["cozum"], ENT_QUOTES, "UTF-8");
     $testadi= htmlentities($_GET["testadi"], ENT_QUOTES, "UTF-8");
+    $testadiQuery= $_GET["testadi"];
 
 
     //--------------------------------image upload
@@ -78,11 +79,11 @@
     }
     //--------------------------------image upload End--//
 
-    $secenekler = mt_rant(0,3);
+    $secenekler = mt_rand(0,3);
 
     $sql="insert into sorular (soru, resim, cevap, secenek1, secenek2, secenek3, sinif, cozum, testadi, secenekler) values ('$soru', '$resim', '$cevap', '$secenek1', '$secenek2', '$secenek3', '$sinif', '$cozum', '$testadi', '$secenekler')";
     mysqli_query(baglanti(),$sql) or die ("Kayıt ekleme sorgusunda hata oluştu");
 
-    header("Location:index.php?sinif=$sinif&&testadi=$testadi");
+    header("Location:index.php?sinif=$sinif&&testadi=$testadiQuery");
 
     

@@ -37,9 +37,9 @@
         <?php 
             if(!empty($_GET['test'])) {
                 
-                $testAd = $_GET['test'];
-                $ogrenciNo = $_GET['ogrencino'];
-                $ogrenciSinif = $_GET['sinif'];
+                $testAd = htmlentities($_GET["test"], ENT_QUOTES, "UTF-8");
+                $ogrenciNo = htmlentities($_GET["ogrencino"], ENT_QUOTES, "UTF-8");
+                $ogrenciSinif = htmlentities($_GET["sinif"], ENT_QUOTES, "UTF-8");
         ?>
         <div class="container testResult">
             <div class="row">
@@ -73,7 +73,7 @@
                                 $ogrenciCevap = "";
                                 $cevapDurum = false;
                                 
-                                $sql1 = mysqli_query(baglanti(), "Select cevap from cevaplar where ogrenciNo='$ogrenciNo' and soruid='$soruid'");
+                                $sql1 = mysqli_query(baglanti(), "Select cevap from ilkcevaplar where ogrenciNo='$ogrenciNo' and soruid='$soruid'");
 
                                 while($row1 = mysqli_fetch_array($sql1)) {
                                     $cevapDurum = true;
@@ -114,17 +114,104 @@
                     <div id="netSayisi">Net sayısı: <?php echo $netSayisi ?></div>
                     <?php 
                     if(!empty($testAd)) {
-                        $sql = mysqli_query(baglanti(),"Select * from sonuclar where ogrencino='$ogrenciNo' and testadi='$testAd'");
+                        $sql = mysqli_query(baglanti(),"Select * from ilksonuclar where ogrencino='$ogrenciNo' and testadi='$testAd'");
         
                         $row = mysqli_fetch_array($sql);
                         
                         $sonucKontrol = $row['netsayisi'];
                         
                         if (!empty($sonucKontrol)) {
-                            $sql="Update sonuclar Set dogrusayisi='$dogruSayisi', yanlissayisi='$yanlisSayisi', bossayisi='$bosSayisi', netsayisi='$netSayisi' Where ogrencino='$ogrenciNo' and testadi='$testAd' ";
+                            $sql="Update ilksonuclar Set dogrusayisi='$dogruSayisi', yanlissayisi='$yanlisSayisi', bossayisi='$bosSayisi', netsayisi='$netSayisi' Where ogrencino='$ogrenciNo' and testadi='$testAd' ";
                         }
                         else {                        
-                            $sql="insert into sonuclar (ogrencino, testadi, dogrusayisi, yanlissayisi, bossayisi, netsayisi) values ('$ogrenciNo', '$testAd', '$dogruSayisi', '$yanlisSayisi', '$bosSayisi', '$netSayisi')";
+                            $sql="insert into ilksonuclar (ogrencino, testadi, dogrusayisi, yanlissayisi, bossayisi, netsayisi) values ('$ogrenciNo', '$testAd', '$dogruSayisi', '$yanlisSayisi', '$bosSayisi', '$netSayisi')";
+                        }
+                        mysqli_query(baglanti(),$sql);
+                    }
+                    ?>
+                </div>
+                <div class="col-12 col-lg-8">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Soru</th>
+                                <th scope="col">Doğru Cevap</th>
+                                <th scope="col">Öğrencinin Cevabı</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php 
+
+                            $sayac = 0;
+                            $sql = mysqli_query(baglanti(), "Select cevap,soru,secenekler,id,resim from sorular where sinif='$ogrenciSinif' and testadi='$testAd'");
+
+                            $dogruSayisi = 0;
+                            $yanlisSayisi = 0;
+                            $bosSayisi = 0;
+
+                            while($row = mysqli_fetch_array($sql)) {
+                                $sayac++;
+                                $cevap = $row['cevap'];
+                                $secenek = $row['secenekler'];
+                                $soru = $row['soru'];
+                                $resim = $row['resim'];
+                                $soruid = $row['id'];
+                                $ogrenciCevap = "";
+                                $cevapDurum = false;
+                                
+                                $sql1 = mysqli_query(baglanti(), "Select cevap from soncevaplar where ogrenciNo='$ogrenciNo' and soruid='$soruid'");
+
+                                while($row1 = mysqli_fetch_array($sql1)) {
+                                    $cevapDurum = true;
+                                    $ogrenciCevap = $row1['cevap'];
+                                }
+                                if($cevap == $ogrenciCevap && $cevapDurum) {
+                                    $color = "success";
+                                    $dogruSayisi++;
+                                }
+                                else if(!$cevapDurum) {
+                                    $color = "secondary";
+                                    $bosSayisi++;
+                                }
+                                else {
+                                    $color = "danger";
+                                    $yanlisSayisi++;
+                                }
+                            ?>
+                            <tr class="text-<?php echo $color ?>">
+                                <th scope="row"><?php echo $sayac; ?></th>
+                                <td><?php if($resim != "BOŞ") { ?><img src="uploads/<?php echo $resim ?>" width="150px" height="150px" > <?php } echo $soru; ?></td>
+                                <td><?php echo $cevap; ?></td>
+                                <td><?php if($color == "danger") { echo $ogrenciCevap; } ?></td>
+                            </tr>
+                            
+                        <?php
+                            }
+                            $netSayisi = $dogruSayisi - ($yanlisSayisi/4);
+                            
+                        ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div id="dogruSayisi">Doğru sayısı: <?php echo $dogruSayisi ?></div>
+                    <div id="yanlisSayisi">Yanlış sayısı: <?php echo $yanlisSayisi ?></div>
+                    <div id="bosSayisi">Boş sayısı: <?php echo $bosSayisi ?></div>
+                    <div id="netSayisi">Net sayısı: <?php echo $netSayisi ?></div>
+                    <?php 
+                    if(!empty($testAd)) {
+                        $sql = mysqli_query(baglanti(),"Select * from sonsonuclar where ogrencino='$ogrenciNo' and testadi='$testAd'");
+        
+                        $row = mysqli_fetch_array($sql);
+                        
+                        $sonucKontrol = $row['netsayisi'];
+                        
+                        if (!empty($sonucKontrol)) {
+                            $sql="Update sonsonuclar Set dogrusayisi='$dogruSayisi', yanlissayisi='$yanlisSayisi', bossayisi='$bosSayisi', netsayisi='$netSayisi' Where ogrencino='$ogrenciNo' and testadi='$testAd' ";
+                        }
+                        else {                        
+                            $sql="insert into sonsonuclar (ogrencino, testadi, dogrusayisi, yanlissayisi, bossayisi, netsayisi) values ('$ogrenciNo', '$testAd', '$dogruSayisi', '$yanlisSayisi', '$bosSayisi', '$netSayisi')";
                         }
                         mysqli_query(baglanti(),$sql);
                     }

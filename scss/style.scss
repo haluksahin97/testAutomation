@@ -1,4 +1,6 @@
+$largeScreen: 1200px;
 $mediumScreen: 993px;
+$smallScreen: 573px;
 .questionsCreate, .studentsCreate, .testGive {
     @media screen and (min-width: $mediumScreen) {
         width: 900px;
@@ -9,17 +11,22 @@ $mediumScreen: 993px;
     }
 }
 
-.questionsList, .adminTestResults {
-  .table td, .table th {
+table {
+  td, th {
     vertical-align: middle !important;
+  }
+  tbody tr {
+    &:hover {
+      background-color: #8181816e  !important;
+    }
   }
 
   img {
     object-fit: cover;
     object-position: 50% 50%;
   }
-    
 }
+   
 .adminTestResults {
   table{
     tr {
@@ -29,11 +36,7 @@ $mediumScreen: 993px;
     }
   }
 }
-.Students {
-  .table td, .table th {
-    vertical-align: middle !important;
-  }
-}
+
 .testSil, .subeSil {
   position: absolute;
   margin-top: 15px;
@@ -56,30 +59,33 @@ $mediumScreen: 993px;
   top: 55px;
   left: 0;
   background-color: #111;
-  transition: 0.5s;
+  -webkit-transition: .5s;
+  -moz-transition: .5s;
+  -o-transition: .5s;
+  transition: .5s;
   padding-top: 22px;
   overflow: hidden;
-}
-
-.sidepanel a {
-  white-space: nowrap;
-  padding: 8px 8px 8px 12px;
-  text-decoration: none;
-  font-size: 20px;
-  color: #818181;
-  display: block;
-  transition: 0.3s;
-}
-
-.sidepanel a:hover {
-  color: #f1f1f1;
-}
-
-.sidepanel .closebtn {
-  position: absolute;
-  top: 0;
-  right: 5px;
-  font-size: 32px;
+  a {
+    white-space: nowrap;
+    padding: 8px 8px 8px 12px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+    -webkit-transition: .3s;
+    -moz-transition: .3s;
+    -o-transition: .3s;
+    transition: .3s;
+    &:hover {
+      color: #f1f1f1
+    }
+    .closebtn {
+      position: absolute;
+      top: 0;
+      right: 5px;
+      font-size: 32px;
+    }
+  }
 }
 
 .openbtn {
@@ -89,15 +95,14 @@ $mediumScreen: 993px;
   color: white;
   padding: 10px 15px;
   border: none;
-}
-
-.openbtn:hover {
-  background-color:#444;
+  &:hover {
+    background-color:#444;
+  }
 }
 
 .dropdown {
   margin-top: 7px;
-  button{
+  button {
     font-size: 18px;
     font-weight: 500;
     vertical-align: middle !important;
@@ -125,27 +130,52 @@ $mediumScreen: 993px;
       }
     }
   }
-}
-
-  .dropdown.show {
+  .show {
     .dropdown-menu {
       max-height: 200px;
       opacity: 1;
     }
   }
+}
 
   .studentTest{
     .testQuestion{
-      font-size: 18px;
+      .resultQuestion {
+        font-size: 18px !important;
+      }
+      font-size: 22px;
       img {
         object-fit: contain;
       }
       a {
+        text-decoration: none;
+        position: relative;
+        padding: 0 0 5px 0;
         color: #000000;
         cursor: pointer;
+        &:after {
+          content: '';
+          position: absolute;
+          height: 2px;
+          width: 100%;
+          left: 0;
+          bottom: 0;
+          visibility: hidden;
+          background-color: #eb5055;
+          -webkit-transition: all .1s ease;
+          transition: all 0.3s ease;  
+          -webkit-transform: scaleX(0);
+          -ms-transform: scaleX(0);
+          transform: scaleX(0);
+        }
         &:hover {
-          text-decoration: none;
-          font-weight: 500;
+          font-weight: 600;
+          &:after {
+            visibility: visible;
+            -webkit-transform: scaleX(1);
+            -ms-transform: scaleX(1);
+            transform: scaleX(1);
+          }
         }
       }
     }
@@ -156,6 +186,17 @@ $mediumScreen: 993px;
       position: fixed;
       top: 60px;
       right: 0;
+    }
+    .btn {
+      font-size: 18px !important;
+      margin-right:0 !important;
+      width: 30%;
+      @media screen and (max-width: $mediumScreen) {
+        width:50% !important;
+      }
+      @media screen and (max-width: $smallScreen) {
+        width:60% !important;
+      }
     }
   }
   #testFinish, #testIntro {
@@ -170,18 +211,391 @@ $mediumScreen: 993px;
     .content {
       margin-top: 25vh;
       .btn {
-        width:100px;
+        width:15%;
+        @media screen and (max-width: $mediumScreen) {
+          width:40% !important;
+        }
+        @media screen and (max-width: $smallScreen) {
+          width:70% !important;
+        }
+        
       }
     }
   }
   .testResult {
-    td{
-      vertical-align: middle;
-    }
     img {
-      object-fit: contain;
+      object-fit: contain !important;
     }
     .text-danger {
       font-weight: 500;
     }
+    tbody{
+      tr {
+        cursor: zoom-in;
+      }
+    }
   }
+
+  .studentLogin {
+    .border {
+      @media screen and (max-width: $mediumScreen) {
+        border: none !important;
+      }
+      -webkit-transition: .5s;
+      -moz-transition: .5s;
+      -o-transition: .5s;
+      transition: .5s;
+      @media screen and (min-width: $mediumScreen) {
+        &:hover {
+          box-shadow: 0 3px 11px 0 rgba(0, 0, 0, 0.24), 0 5px 8px 0 rgba(0, 0, 0, 0.19);
+        }
+      }
+    }
+  }
+
+  .studentIndex {
+    .border-right {
+      border-width: 2px !important;
+      border-color: #00000093 !important;
+    }
+  }
+
+  //////////////////////////// Global Button Styles
+.animated-button {
+  &:link,&:visited {
+    position: relative;
+    display: block;
+    margin: 30px auto 0;
+    padding: 14px 15px;
+    color: #000;
+    font-size:16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    //text-transform: uppercase;
+    overflow: hidden;
+    letter-spacing: .08em;
+    border-radius: 0;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(0, 0, 0, 0.2);
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+    &:after {
+      content: "";
+      position: absolute;
+      height: 0%;
+      left: 50%;
+      top: 50%;
+      width: 150%;
+      z-index: -1;
+      -webkit-transition: all 0.9s ease 0s;
+      -moz-transition: all 0.9s ease 0s;
+      -o-transition: all 0.9s ease 0s;
+      transition: all 0.9s ease 0s;
+    }
+    &:hover {
+      box-shadow: 0 8px 11px 0 rgba(0, 0, 0, 0.24), 10px 4px 8px 0 rgba(0, 0, 0, 0.19);
+      color: #FFF;
+      text-shadow: none;
+      &:after {
+        height: 450%;
+      }
+    }
+  }
+}
+
+///////////////////Victoria One Styles
+
+.animated-button.victoria-one {
+  border: 2px solid #D24D57;
+  &:after {
+    background: #D24D57;
+    -moz-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+    -ms-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+    -webkit-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+    transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+  }
+}
+
+///////////////////Victoria Two Styles
+
+.animated-button.victoria-two {
+  border: 2px solid #D24D57;
+  &:after {
+    background: #D24D57;
+    -moz-transform: translateX(-50%) translateY(-50%) rotate(25deg);
+    -ms-transform: translateX(-50%) translateY(-50%) rotate(25deg);
+    -webkit-transform: translateX(-50%) translateY(-50%) rotate(25deg);
+    transform: translateX(-50%) translateY(-50%) rotate(25deg);
+  }
+}
+
+//////////////////////Victoria Three Styles
+
+.animated-button.victoria-three {
+  border: 2px solid #D24D57;
+  &:after {
+    background: #D24D57;
+    opacity: .5;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+  }
+  &:hover:after {
+    height: 140%;
+    opacity: 1;
+  }
+}
+
+//////////////////////Victoria Four Styles
+
+.animated-button.victoria-four {
+  border: 2px solid #D24D57;
+  &:hover:after {
+    opacity: 1;
+    height: 600% !important;
+  }
+  &:after {
+    background: #D24D57;
+    opacity: .5;
+    -moz-transform: translateY(-50%) translateX(-50%) rotate(90deg);
+    -ms-transform: translateY(-50%) translateX(-50%) rotate(90deg);
+    -webkit-transform: translateY(-50%) translateX(-50%) rotate(90deg);
+    transform: translateY(-50%) translateX(-50%) rotate(90deg);
+  }
+}
+
+//////////////////////Thar Two Styles
+
+
+.animated-button.thar-two {
+	color: #000;
+	cursor: pointer;
+	display: block;
+	position: relative;
+	border: 2px solid #9283ef;
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+  &:hover {
+    color: #fff !important;
+    background-color: transparent;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2);
+    &:before {
+      top: 0%;
+      bottom: auto;
+      height: 100%;
+    }
+  }
+  &:before {
+    display: block;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    height: 0px;
+    width: 100%;
+    z-index: -1;
+    content: '';
+    color: #fff !important;
+    background: #9283ef;
+    transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+  }
+}
+
+//////////////////////Thar Three Styles
+
+
+a.animated-button.thar-three {
+	color: #000;
+	cursor: pointer;
+	display: block;
+	position: relative;
+	border: 2px solid #D24D57;
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+  &:hover {
+    color: #fff !important;
+    background-color: transparent;
+    text-shadow: nthree;
+    &:before {
+      left: 0%;
+      right: auto;
+      width: 100%;
+    }
+  }
+  &:before {
+    display: block;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 100%;
+    width: 0px;
+    z-index: -1;
+    content: '';
+    color: #000 !important;
+    background: #D24D57;
+    transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+  }
+}
+
+//////////////////////Sandy Two Styles
+
+.animated-button.sandy-two {
+	border: 2px solid #65b37a;
+  color: #000;
+  &:after {
+    border: 3px solid #65b37a;
+    opacity: 0;
+    -moz-transform: translateY(-50%) translateX(-50%) rotate(90deg);
+    -ms-transform: translateY(-50%) translateX(-50%) rotate(90deg);
+    -webkit-transform: translateY(-50%) translateX(-50%) rotate(90deg);
+    transform: translateY(-50%) translateX(-50%) rotate(90deg);
+  }
+  &:hover {
+    color: #000 !important;
+    &:after {
+      height: 800% !important;
+      opacity: 1;
+    }
+  }
+}
+
+
+//////////////////////// Effect Results 
+
+.effectTrue {
+  &:after {
+    color: #6cfb90;
+  }
+}
+.effectFalse {
+  &:after {
+    color: #ff8080;
+  }
+}
+.effectNull {
+  &:after {
+    color: #8f8f8f;
+  }
+}
+.effectNet {
+  &:after {
+    color: #9acbff;
+  }
+}
+/* front */
+.text-hover{
+  display: table;
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+	perspective:1000px;
+	-webkit-perspective:1000px;
+	-moz-perspective:1000px;
+	display: -webkit-box;
+	display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -moz-box-pack: center;
+    -ms-flex-pack: center;
+    -moz-flex-pack: center;
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    -moz-flex-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    align-items: center;
+    text-align: center;
+    .results{
+      padding: 10px 0px;
+      position: relative;
+      transition:600ms;
+      &:after {
+        content: attr(data-hover);
+        position: absolute;
+        left: -100%;
+        top: 10px;
+        transform:rotateY(90deg);
+        -webkit-transform:rotateY(90deg);
+        -moz-transform:rotateY(90deg);
+        -o-transform:rotateY(90deg);
+        -ms-transform:rotateY(90deg);
+        transition:500ms;
+        opacity: 0;
+      }
+    }
+  &:hover .results {
+      color: transparent !important;
+      &:after {
+        transform:rotateY(0deg);
+        -webkit-transform:rotateY(0deg);
+        -moz-transform:rotateY(0deg);
+        -o-transform:rotateY(0deg);
+        -ms-transform:rotateY(0deg);
+        opacity: 1;
+        left: 0px;
+      }
+  }
+}
+
+/* Results */
+
+.resultsShow {
+  margin-left: -40px !important;
+  box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.48), 0 7px 0px 0 rgba(0, 0, 0, 0.48) !important;
+  padding: 5px !important;
+  margin-bottom: 7px !important;
+}
+
+.trueResult, .falseResult, .nullResult, .netResult {
+  z-index: 999;
+  color: #fff;
+  font-weight: 600;
+  @media screen and (max-width: $largeScreen) and (min-width: $mediumScreen) {
+    font-size: 15px !important;
+  }
+	font-size: 18px;
+  text-shadow:1px 2px 3px rgba(0,0,0,0.2);
+  -webkit-transition: .5s ease-in;
+  -moz-transition: .5s ease-in;
+  -o-transition: .5s ease-in;
+  transition: .5s ease-in;
+  border-radius: 15px 15px 15px 15px;
+  margin-top: 15px;
+  &:hover {
+    margin-right: -30px;
+    -webkit-transition: .2s ease-out;
+    -moz-transition: .2s ease-out;
+    -o-transition: .2s ease-out;
+    transition: .2s ease-out;
+    box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.48), 0 7px 0px 0 rgba(0, 0, 0, 0.48);
+    padding: 5px;
+    margin-bottom: 22px;
+    margin-top: 15px;
+    border-radius: 20px 20px 20px 20px;
+  }
+}
+.trueResult{
+  background: rgb(44, 185, 51);
+}
+.falseResult{
+	background: rgba(231, 76, 60,1.0);
+}
+.nullResult{
+	background: rgb(87, 87, 87);
+}
+.netResult{
+	background: rgb(65, 156, 218);
+}
+
+a.w-50 {
+  @media screen and (max-width: $smallScreen) {
+    width: 100% !important;
+  }
+}

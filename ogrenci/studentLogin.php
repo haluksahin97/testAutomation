@@ -3,8 +3,8 @@
     include_once("../sabitler/sabit.php");
     include_once("../sabitler/baglanti.php");
 
-    $ogrencino= $_POST["ogrencino"];
-    $password=$_POST["password"];
+    $ogrencino= htmlentities($_POST["ogrencino"], ENT_QUOTES, "UTF-8");
+    $password=htmlentities($_POST["password"], ENT_QUOTES, "UTF-8");
 
     
     $sql = "Select * from ogrenciler Where ogrencino='$ogrencino' and password='$password'";

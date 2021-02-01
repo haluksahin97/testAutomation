@@ -16,6 +16,7 @@
     $ogrencino= htmlentities($_POST["ogrencino"], ENT_QUOTES, "UTF-8");
     $sinif= $url[2];
     $subeadi= htmlentities($_GET["subeadi"], ENT_QUOTES, "UTF-8");
+    $subeadiQuery= $_GET["subeadi"];
 
 
 
@@ -23,6 +24,6 @@
     mysqli_query(baglanti(),$sql) or die ("Kayıt ekleme sorgusunda hata oluştu");
 
 
-    header("Location:yeniogrenci.php?sinif=$sinif&&subeadi=$subeadi");
+    header("Location:yeniogrenci.php?sinif=$sinif&&subeadi=$subeadiQuery");
 
     

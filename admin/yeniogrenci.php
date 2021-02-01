@@ -52,7 +52,9 @@
         <div class="container studentsCreate mb-5">
         <?php
             if(!empty($_GET["sinif"])){
+                $sinif = htmlentities($_GET["sinif"], ENT_QUOTES, "UTF-8");
                 if(!empty($_GET["subeadi"])) { // Bilgi giriş ekranı -----------------------
+                    $subeadi = htmlentities($_GET["subeadi"], ENT_QUOTES, "UTF-8");
         ?>
             <div class="header pt-2 mt-4">
                 <div class="row">
@@ -71,7 +73,7 @@
                                     $sql = mysqli_query(baglanti(),"Select * from subeadi");
                                         
                                     while($row = mysqli_fetch_array($sql)){
-                                        if($_GET['subeadi'] != $row['adi']) {
+                                        if($subeadi != $row['adi']) {
                                 ?>
                                             <li role="presentation"><a role="menuitem" tabindex="-1" href="yeniogrenci.php?sinif=<?php echo $_GET['sinif']; ?>&&subeadi=<?php echo $row['adi']?>"><?php echo $row['adi']; ?></a></li>
                                     

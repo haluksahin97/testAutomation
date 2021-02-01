@@ -52,9 +52,9 @@
     <?php
 
         if(!empty($_GET["sinif"])){
-            $sinif = $_GET["sinif"];
+            $sinif = htmlentities($_GET["sinif"], ENT_QUOTES, "UTF-8");
             if(!empty($_GET["testadi"])) {
-                $testadi = $_GET["testadi"];
+                $testadi = htmlentities($_GET["testadi"], ENT_QUOTES, "UTF-8");
 
                 $soruSayac = 0;
         
@@ -136,7 +136,7 @@
                                             $sql = mysqli_query(baglanti(),"Select * from testadi where sinif='$sinif'");
                                                 
                                             while($row = mysqli_fetch_array($sql)){
-                                                if($_GET['testadi'] != $row['adi']) {
+                                                if($testadi != $row['adi']) {
                                         ?>
                                                     <li role="presentation"><a role="menuitem" tabindex="-1" href="sorular.php?sinif=<?php echo $_GET['sinif']; ?>&&testadi=<?php echo $row['adi']?>"><?php echo $row['adi']; ?></a></li>
                                             

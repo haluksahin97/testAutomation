@@ -52,11 +52,11 @@
     <?php
 
         if(!empty($_GET["sinif"])){
-            $sinif = $_GET["sinif"];
+            $sinif = htmlentities($_GET["sinif"], ENT_QUOTES, "UTF-8");
             if(!empty($_GET["testadi"])) {
-                $testadi = $_GET["testadi"];
+                $testadi = htmlentities($_GET["testadi"], ENT_QUOTES, "UTF-8");
                 if(!empty($_GET["subeadi"])) {
-                    $subeadi = $_GET["subeadi"];
+                    $subeadi = htmlentities($_GET["subeadi"], ENT_QUOTES, "UTF-8");
 
                     $ogrenciSayac = 0;
             
@@ -82,7 +82,7 @@
                         $ogrenciler[$ogrenciSayac]["adi"] = $row['adi'];
                         $ogrenciler[$ogrenciSayac]["soyadi"] = $row['soyadi'];
                         
-                        $sql1 = mysqli_query(baglanti(),"Select * from sonuclar where ogrencino = '$ogrenciNo' and testadi = '$testadi'");
+                        $sql1 = mysqli_query(baglanti(),"Select * from ilksonuclar where ogrencino = '$ogrenciNo' and testadi = '$testadi'");
 
                         while($row1 = mysqli_fetch_array($sql1)){
                             $ogrenciler[$ogrenciSayac]["dogrusayisi"] = $row1['dogrusayisi'];
@@ -123,9 +123,9 @@
                                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                                             
                                         <?php 
-                                            if($_GET['testadi'] != "YOK") {
+                                            if($testadi != "YOK") {
                                         ?>
-                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="testsonuclar.php?sinif=<?php echo $_GET['sinif']; ?>&&testadi=YOK&&subeadi=<?php echo $subeadi ?>">Test Adı Olmayanlar</a></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="testsonuclar.php?sinif=<?php echo $_GET['sinif']; ?>&&testadi=YOK&&subeadi=<?php echo $_GET["subeadi"] ?>">Test Adı Olmayanlar</a></li>
                                         <?php
                                             }
                                         ?>
@@ -135,9 +135,9 @@
                                                 $sql = mysqli_query(baglanti(),"Select * from testadi where sinif='$sinif'");
                                                     
                                                 while($row = mysqli_fetch_array($sql)){
-                                                    if($_GET['testadi'] != $row['adi']) {
+                                                    if($testadi != $row['adi']) {
                                             ?>
-                                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="testsonuclar.php?sinif=<?php echo $_GET['sinif']; ?>&&testadi=<?php echo $row['adi']?>&&subeadi=<?php echo $subeadi?>"><?php echo $row['adi']; ?></a></li>
+                                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="testsonuclar.php?sinif=<?php echo $_GET['sinif']; ?>&&testadi=<?php echo $row['adi']?>&&subeadi=<?php echo $_GET["subeadi"]?>"><?php echo $row['adi']; ?></a></li>
                                                 
                                             <?php
                                                     }

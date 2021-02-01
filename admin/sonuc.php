@@ -35,8 +35,8 @@
     
     <main role="main">
         <?php 
-            $ogrenciNo = $_GET['ogrencino'];
-            $ogrenciSinif = $_GET['sinif']
+            $ogrenciNo = htmlentities($_GET["ogrencino"], ENT_QUOTES, "UTF-8");
+            $ogrenciSinif = htmlentities($_GET["sinif"], ENT_QUOTES, "UTF-8");
         ?>
         <div class="header pt-5x mt-5">
             

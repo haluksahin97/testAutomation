@@ -10,7 +10,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
 
-    <link rel="stylesheet" href="../css/style.css?v=9" >
+    <link rel="stylesheet" href="../css/style.css?v=15" >
     
 </head>
 <body>
@@ -32,16 +32,19 @@
     <main role="main">
         <div id="testIntro">
             <div class="content">
-                <?php $testAd = $_GET['test']; ?>
+                <?php $testAd = htmlentities($_GET["test"], ENT_QUOTES, "UTF-8"); ?>
                 <h2 class="mb-4" id="testIntroHead"><?php echo $testAd; ?> Testine Hoşgeldiniz</h2>
+                <hr width="61px">
+                <h4 class="mb-4" id="testIntroHead">Testte giriş yaptıktan sonra sonucunuz otomatik olarak kaydedilecektir.</h4>
                 <?php 
                     $sql = mysqli_query(baglanti(),"Select sure from testadi where adi = '$testAd' and sinif = '$ogrenciSinif'");
                     $row = mysqli_fetch_array($sql);
                     $sure = $row['sure'];
                 ?>
                 
-                <h5 id="testIntroContent" class="mb-5">Süreniz <?php echo $sure ?> dakidadır. </h5>
-                <button class="btn btn-dark" id="testIntroButton" onclick="window.location.href='test.php?test=<?php echo $testAd; ?>';">Başla</button>
+                <h4 id="testIntroContent" class="mb-3">Süreniz <b><?php echo $sure ?></b> dakidadır. </h4>
+                <h5 id="testIntroContent" class="mb-5">Başarılar 😇</h5>
+                <a class="btn btn-sm animated-button sandy-two" id="testIntroButton" href="testReset.php?test=<?php echo $testAd; ?>">Başla</a>
             </div>
         </div>
     </main>
